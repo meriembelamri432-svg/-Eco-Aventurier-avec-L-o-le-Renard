@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Aventurier - Trie les déchets avec Léo !</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header avec score et vies -->
+        <header class="game-header">
+            <div class="score-container">
+                <span class="score-label">SCORE</span>
+                <span id="score" class="score-value">0</span>
+            </div>
+            <div class="mascotte-mini">
+                <div class="mascotte-avatar">🦊</div>
+            </div>
+            <div class="lives-container">
+                <span id="lives">❤️❤️❤️</span>
+            </div>
+        </header>
+
+        <!-- Zone de jeu principale -->
+        <main class="game-main">
+            <!-- Mascotte et dialogue -->
+            <div class="mascotte-container">
+                <div class="mascotte-character">
+                    <div class="mascotte" id="mascotte">🦊</div>
+                    <div class="speech-bubble" id="speech-bubble">
+                        Salut ! Aide-moi à trier ces déchets !
+                    </div>
+                </div>
+            </div>
+
+            <!-- Déchet lancé par la mascotte -->
+            <div class="waste-throw-area">
+                <div id="flying-waste" class="flying-waste">🧴</div>
+            </div>
+
+            <!-- Zone de réception des déchets -->
+            <div class="catch-zone">
+                <div class="waste-display" id="waste-display">
+                    <div id="waste-image" class="waste-image">🧴</div>
+                </div>
+            </div>
+
+            <!-- Question -->
+            <div class="question-container">
+                <h1 id="question">Dans quelle poubelle vas-tu le mettre ?</h1>
+            </div>
+
+            <!-- Boutons de tri -->
+            <div class="bins-grid">
+                <button class="bin-btn plastic-btn" onclick="checkAnswer('plastic')">
+                    <span class="bin-emoji">🟨</span>
+                    <span class="bin-text">Plastique</span>
+                </button>
+               
+                <button class="bin-btn paper-btn" onclick="checkAnswer('paper')">
+                    <span class="bin-emoji">🟦</span>
+                    <span class="bin-text">Papier</span>
+                </button>
+               
+                <button class="bin-btn glass-btn" onclick="checkAnswer('glass')">
+                    <span class="bin-emoji">🟩</span>
+                    <span class="bin-text">Verre</span>
+                </button>
+               
+                <button class="bin-btn other-btn" onclick="checkAnswer('other')">
+                    <span class="bin-emoji">🟥</span>
+                    <span class="bin-text">Autre</span>
+                </button>
+            </div>
+        </main>
+
+        <!-- Navigation -->
+        <nav class="game-nav">
+            <button class="nav-btn" onclick="showScreen('home')">🏠</button>
+            <button class="nav-btn" onclick="showScreen('learn')">📚</button>
+            <button class="nav-btn" onclick="showScreen('rewards')">⭐</button>
+            <button class="nav-btn" id="sound-btn" onclick="toggleSound()">🔊</button>
+        </nav>
+
+        <!-- Overlay d'accueil -->
+        <div id="home-overlay" class="overlay active">
+            <div class="overlay-content">
+                <div class="mascotte-welcome">
+                    <div class="mascotte-large">🦊</div>
+                    <div class="welcome-bubble">
+                        Salut ! Je suis <strong>Léo le Renard Écolo</strong> !<br>
+                        Aide-moi à trier les déchets pour protéger notre forêt !
+                    </div>
+                </div>
+                <h1 class="game-title">Trie les déchets !</h1>
+                <p class="game-subtitle">Avec ton nouvel ami Léo</p>
+                <button class="start-btn" onclick="startGame()">
+                    🎮 JOUER AVEC LÉO
+                </button>
+                <div class="feature-list">
+                        <div class="feature">🦊 Mascotte interactive</div>
+                        <div class="feature">🎯 Jeu de lancer et tri</div>
+                        <div class="feature">🏆 Récompenses amusantes</div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Overlay d'apprentissage -->
+            <div id="learn-overlay" class="overlay">
+                <div class="overlay-content">
+                    <div class="mascotte-guide">
+                        <div class="mascotte-small">🦊</div>
+                        <div class="guide-bubble">
+                            Voici comment bien trier !
+                        </div>
+                    </div>
+                    <h2>📚 Guide du Tri avec Léo</h2>
+                    <div class="guide-grid">
+                        <div class="guide-card plastic-guide">
+                            <div class="guide-emoji">🟨</div>
+                            <h3>Plastique</h3>
+                            <p>Bouteilles, emballages, sacs</p>
+                            <div class="mascotte-tip">🦊: "Je recycle mes bouteilles !"</div>
+                        </div>
+                        <div class="guide-card paper-guide">
+                            <div class="guide-emoji">🟦</div>
+                            <h3>Papier</h3>
+                            <p>Journaux, magazines, cartons</p>
+                            <div class="mascotte-tip">🦊: "Le papier se recycle bien !"</div>
+                        </div>
+                        <div class="guide-card glass-guide">
+                            <div class="guide-emoji">🟩</div>
+                            <h3>Verre</h3>
+                            <p>Bouteilles, pots, bocaux</p>
+                            <div class="mascotte-tip">🦊: "Attention, le verre est fragile !"</div>
+                        </div>
+                        <div class="guide-card other-guide">
+                            <div class="guide-emoji">🟥</div>
+                            <h3>Autre</h3>
+                            <p>Déchets non recyclables</p>
+                            <div class="mascotte-tip">🦊: "À jeter avec précaution !"</div>
+                        </div>
+                    </div>
+                    <button class="close-btn" onclick="hideOverlay()">Fermer</button>
+                </div>
+            </div>
+    
+            <!-- Overlay récompenses -->
+            <div id="rewards-overlay" class="overlay">
+                <div class="overlay-content">
+                    <div class="mascotte-rewards">
+                        <div class="mascotte-small">🦊</div>
+                        <div class="rewards-bubble">
+                            Regarde toutes les récompenses que tu as gagnées !
+                        </div>
+                    </div>
+                    <h2>⭐ Mes Récompenses</h2>
+                    <div class="rewards-grid">
+                        <div class="reward-card" id="reward-1">
+                            <div class="reward-badge">🌱</div>
+                            <h4>Apprenti Écolo</h4>
+                            <p>50 points</p>
+                            <div class="reward-desc">Léo est content de toi !</div>
+                        </div>
+                        <div class="reward-card locked" id="reward-2">
+                            <div class="reward-badge">🦊</div>
+                            <h4>Assistant de Léo</h4>
+                            <p>100 points</p>
+                            <div class="reward-desc">Tu deviens mon assistant !</div>
+                        </div>
+                        <div class="reward-card locked" id="reward-3">
+                            <div class="reward-badge">🏆</div>
+                            <h4>Maître du Tri</h4>
+                            <p>200 points</p>
+                            <div class="reward-desc">Expert du tri ! Bravo !</div>
+                        </div>
+                    </div>
+                    <button class="close-btn" onclick="hideOverlay()">Fermer</button>
+                </div>
+            </div>
+        </div>
+    
+        <script src="script.js"></script>
+    </body>
+    </html>
